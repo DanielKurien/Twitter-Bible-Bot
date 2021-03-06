@@ -19,7 +19,18 @@ def dailyTweet():
     print("Tweet Tweeted!")
 
 
-schedule.every().day.at("7:00").do(dailyTweet)
+def follow():
+    for follower in tweepy.Cursor(api.followers).items():
+        if not follower.following:
+            follower.follow()
+
+
+def bot_functions():
+    dailyTweet()
+    follow()
+
+
+schedule.every().day.at("07:30").do(bot_functions)
 
 while True:
     schedule.run_pending()
